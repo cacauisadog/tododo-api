@@ -1,0 +1,6 @@
+.gitignore
+.git
+.vscode
+.python-version
+README.md
+requirements-dev.txt
