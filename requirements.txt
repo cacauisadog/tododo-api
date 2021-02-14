@@ -6,3 +6,7 @@ starlette==0.13.6
 uvicorn==0.13.3
 requests==2.25.1
 pytest==6.2.2
+tortoise-orm==0.16.21
+aiosqlite==0.16.1
+asyncpg==0.22.0
+asynctest==0.13.0
