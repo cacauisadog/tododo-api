@@ -1,32 +1,28 @@
 from tortoise import fields, models
 from tortoise.contrib.pydantic import pydantic_model_creator
+from passlib.hash import bcrypt
 
 
 class Users(models.Model):
     """
-    The User model
+    The User model.
     """
 
-    id = fields.IntField(pk=True)
-    username = fields.CharField(max_length=20, unique=True)
-    first_name = fields.CharField(max_length=50, null=True)
-    last_name = fields.CharField(max_length=50, null=True)
-    password_hash = fields.CharField(max_length=128, null=True)
+    # Tortoise-ORM automatically creates a FK called 'id' if it's not defined on the model
+    email = fields.CharField(max_length=128, unique=True, index=True)
+    password = fields.CharField(max_length=128)
     created_at = fields.DatetimeField(auto_now_add=True)
     modified_at = fields.DatetimeField(auto_now=True)
 
-    def full_name(self) -> str:
-        """
-        Returns user.first_name + user.last_name
-        """
-        if self.first_name or self.last_name:
-            return f"{self.first_name or ''} {self.last_name or ''}".strip()
-        return self.username
+    class Meta:
+        ordering = ['id']
 
-    class PydanticMeta:
-        computed = ['full_name']
-        exclude = ['password_hash']
+    # class PydanticMeta:
+    #     exclude = ['password_hash']
+
+    def verify_password(self, password):
+        return bcrypt.verify(password, self.password)
 
 
 User_Pydantic = pydantic_model_creator(Users, name='User')
-UserIn_Pydantic = pydantic_model_creator(Users, name='UserIn', exclude_readonly=True)
+UserSimple_Pydantic = pydantic_model_creator(Users, name='UserSimple', exclude_readonly=True)

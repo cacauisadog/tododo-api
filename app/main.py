@@ -11,7 +11,7 @@ log = logging.getLogger(__name__)
 def create_application() -> FastAPI:
     app = FastAPI()
     app.include_router(ping.router)
-    app.include_router(users.router, tags=['users'])
+    app.include_router(users.router, prefix='/users', tags=['Users'])
 
     return app
 
