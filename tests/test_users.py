@@ -5,10 +5,10 @@ from fastapi.testclient import TestClient
 
 
 def test_create_user(client: TestClient, event_loop: asyncio.AbstractEventLoop):
-    response = client.post('/users', json={'username': 'admin'})
+    response = client.post('/users/', json={'email': 'admin@tododo.com', 'password': 'safepassword'})
     assert response.status_code == 200, response.text
     data = response.json()
-    assert data['username'] == 'admin'
+    assert data['email'] == 'admin@tododo.com'
     assert 'id' in data
     user_id = data['id']
 

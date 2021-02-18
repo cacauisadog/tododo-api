@@ -1,4 +1,3 @@
-import os
 import pytest
 
 from typing import Generator
@@ -6,20 +5,17 @@ from typing import Generator
 from starlette.testclient import TestClient
 from tortoise.contrib.test import initializer, finalizer
 
-from app.config import Settings, get_settings
+from app.config.settings import Settings, get_settings
 from app.main import create_application
 
-
-def get_settings_override():
-    return Settings(testing=1, database_url=os.environ.get("DATABASE_TEST_URL"))
+settings: Settings = get_settings()
 
 
 @pytest.fixture(scope="module")
 def client() -> Generator:
     # set up
     app = create_application()
-    app.dependency_overrides[get_settings] = get_settings_override
-    initializer(['app.models'], db_url=os.getenv('DATABASE_TEST_URL'))
+    initializer(settings.MODELS, db_url=settings.DATABASE_URL)
 
     with TestClient(app) as test_client:
 
