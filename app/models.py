@@ -23,6 +23,12 @@ class Users(models.Model):
     def verify_password(self, password):
         return bcrypt.verify(password, self.password)
 
+    def to_pydantic(self):
+        return User_Pydantic.from_orm(self)
+
+    def to_pydantic_simple(self):
+        return UserSimple_Pydantic.from_orm(self)
+
 
 User_Pydantic = pydantic_model_creator(Users, name='User')
 UserSimple_Pydantic = pydantic_model_creator(Users, name='UserSimple', exclude_readonly=True)
