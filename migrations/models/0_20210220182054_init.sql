@@ -1,0 +1,16 @@
+-- upgrade --
+CREATE TABLE IF NOT EXISTS "users" (
+    "id" SERIAL NOT NULL PRIMARY KEY,
+    "email" VARCHAR(128) NOT NULL UNIQUE,
+    "password" VARCHAR(128) NOT NULL,
+    "created_at" TIMESTAMPTZ NOT NULL  DEFAULT CURRENT_TIMESTAMP,
+    "modified_at" TIMESTAMPTZ NOT NULL  DEFAULT CURRENT_TIMESTAMP
+);
+CREATE INDEX IF NOT EXISTS "idx_users_email_133a6f" ON "users" ("email");
+COMMENT ON TABLE "users" IS 'The User model.';
+CREATE TABLE IF NOT EXISTS "aerich" (
+    "id" SERIAL NOT NULL PRIMARY KEY,
+    "version" VARCHAR(255) NOT NULL,
+    "app" VARCHAR(20) NOT NULL,
+    "content" JSONB NOT NULL
+);

@@ -17,7 +17,7 @@ settings: Settings = get_settings()
 def client() -> Generator:
     # set up
     app = create_application()
-    initializer(settings.MODELS, db_url=settings.DATABASE_URL)
+    initializer(settings.MODELS, db_url=settings.TEST_DATABASE_URL)
 
     with TestClient(app) as test_client:
 

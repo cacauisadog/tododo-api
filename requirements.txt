@@ -13,3 +13,5 @@ asynctest==0.13.0
 email-validator==1.1.2
 passlib==1.7.4
 bcrypt==3.2.0
+aerich==0.5.0
+python-dotenv==0.15.0
